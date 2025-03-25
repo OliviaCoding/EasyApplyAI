@@ -1,0 +1,2 @@
+# EasyApplyAI
+Gen AI Project
