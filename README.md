@@ -55,6 +55,9 @@ Then open the local URL shown in your terminal (typically http://localhost:8501)
 /resume-generator
 ├── app.py          # Main Streamlit application
 ├── requirements.txt # Python dependencies
+├── templates/              # Directory for HTML templates
+│   ├── resume_template.html     # Resume HTML template
+│   └── cover_letter_template.html # Cover Letter HTML template
 ├── assets/         # HTML templates and styling
 ├── .streamlit/     # Streamlit configuration
 └── secrets.toml    # API credentials (example)
