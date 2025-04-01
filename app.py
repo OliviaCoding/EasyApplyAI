@@ -6,6 +6,7 @@ from openai import OpenAI
 from weasyprint import HTML
 import tempfile
 import base64
+import os
 
 # Utility function to create safe filenames
 def sanitize_filename(text, default="file"):
@@ -22,235 +23,16 @@ st.title("📄 Professional Resume & Cover Letter Generator")
 # Initialize OpenAI client
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
-# Compact HTML template with one-page optimized styling
-HTML_TEMPLATE = """
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Professional Resume</title>
-    <style>
-        body {{
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.4;
-            color: #333;
-            max-width: 750px;
-            margin: 0 auto;
-            padding: 10px;
-            font-size: 12px;
-        }}
-        .header {{
-            text-align: center;
-            margin-bottom: 8px;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 6px;
-        }}
-        .name {{
-            font-size: 22px;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 3px;
-        }}
-        .contact-info {{
-            font-size: 11px;
-            color: #7f8c8d;
-            margin-bottom: 5px;
-        }}
-        .contact-line {{
-            margin: 3px 0;
-        }}
-        .section {{
-            margin-bottom: 10px;
-        }}
-        .section-title {{
-            font-size: 14px;
-            font-weight: bold;
-            color: #2c3e50;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 3px;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-        }}
-        .subsection {{
-            margin-bottom: 8px;
-        }}
-        .job-title {{
-            font-weight: bold;
-            font-size: 12px;
-        }}
-        .company {{
-            font-style: italic;
-            font-size: 11px;
-        }}
-        .dates {{
-            float: right;
-            font-weight: normal;
-        }}
-        .location {{
-            font-style: italic;
-            color: #7f8c8d;
-            font-size: 11px;
-        }}
-        ul {{
-            margin-top: 3px;
-            padding-left: 15px;
-        }}
-        li {{
-            margin-bottom: 3px;
-            font-size: 11px;
-        }}
-        a {{
-            color: #3498db;
-            text-decoration: none;
-        }}
-        .skills-list {{
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            font-size: 11px;
-        }}
-        .skill-category {{
-            margin-bottom: 4px;
-        }}
-        .skill-category strong {{
-            display: inline-block;
-            margin-right: 5px;
-        }}
-    </style>
-</head>
-<body>
-    <div class="header">
-        <div class="name">{name}</div>
-        <div class="contact-info">
-            <div class="contact-line">📱 {phone} | ✉️ <a href="mailto:{email}">{email}</a></div>
-            <div class="contact-line">
-                {linkedin_html} | {github_html}
-            </div>
-        </div>
-    </div>
+# Function to load template files
+def load_template(template_name):
+    # Assuming templates are in a 'templates' subdirectory
+    template_path = os.path.join('templates', template_name)
+    with open(template_path, 'r', encoding='utf-8') as file:
+        return file.read()
 
-    <div class="section">
-        <div class="section-title">Education</div>
-        <div class="subsection">
-            <div class="job-title">{university} <span class="dates">{education_dates}</span></div>
-            <div class="company">{degree}{gpa}</div>
-            <div class="location">{university_location}</div>
-            <ul>
-                {education_bullets}
-            </ul>
-        </div>
-    </div>
-
-    <div class="section">
-        <div class="section-title">Technical Skills</div>
-        <div class="skills-list">
-            {skills_content}
-        </div>
-    </div>
-
-    <div class="section">
-        <div class="section-title">Experience</div>
-        <div class="subsection">
-            <div class="job-title">{job1_title} <span class="dates">{job1_dates}</span></div>
-            <div class="company">{job1_company}</div>
-            <div class="location">{job1_location}</div>
-            <ul>
-                {job1_bullets}
-            </ul>
-        </div>
-        <div class="subsection">
-            <div class="job-title">{job2_title} <span class="dates">{job2_dates}</span></div>
-            <div class="company">{job2_company}</div>
-            <div class="location">{job2_location}</div>
-            <ul>
-                {job2_bullets}
-            </ul>
-        </div>
-    </div>
-
-    <div class="section">
-        <div class="section-title">Projects</div>
-        <div class="subsection">
-            <div class="job-title">{project1_name} <span class="dates">{project1_date}</span></div>
-            <div class="company">{project1_context}</div>
-            <ul>
-                {project1_bullets}
-            </ul>
-        </div>
-        <div class="subsection">
-            <div class="job-title">{project2_name} <span class="dates">{project2_date}</span></div>
-            <div class="company">{project2_context}</div>
-            <ul>
-                {project2_bullets}
-            </ul>
-        </div>
-    </div>
-</body>
-</html>
-"""
-# Compact Cover Letter HTML template with one-page optimized styling
-
-COVER_LETTER_HTML_TEMPLATE = """
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Cover Letter</title>
-    <style>
-        body {{
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }}
-        .header {{
-            margin-bottom: 20px;
-        }}
-        .contact-info {{
-            margin-bottom: 5px;
-        }}
-        .date {{
-
-            margin-bottom: 20px;
-        }}
-        .recipient {{
-            margin-bottom: 20px;
-        }}
-        .salutation {{
-            margin-bottom: 10px;
-        }}
-        .content {{
-            margin-bottom: 20px;
-            white-space: pre-wrap;
-        }}
-        .signature {{
-            margin-top: 40px;
-        }}
-    </style>
-</head>
-<body>
-    <div class="date">{date}</div>
-
-    <div class="recipient">
-        <div>{recipient_name}</div>
-        <div>{company_name}</div>
-        <div>{company_address}</div>
-        <div>{company_city_state_zip}</div>
-    </div>
-
-    <div class="salutation">{salutation}</div>
-
-    <div class="content">{content}</div>
-
-    <div class="signature">
-        <div>Sincerely,</div>
-        <div><strong>{name}</strong></div>
-    </div>
-</body>
-</html>
-"""
+# Load templates at startup
+RESUME_TEMPLATE = load_template('resume_template.html')
+COVER_LETTER_TEMPLATE = load_template('cover_letter_template.html')
 
 def generate_bullet_points(prompt_text, max_bullets=3, job_desc=None):
     """Generate achievement bullet points using OpenAI API with optional job description tailoring"""
@@ -337,7 +119,7 @@ with tab1:
         st.subheader("Contact Information")
         col1, col2, col3 = st.columns(3)
         with col1:
-            name = st.text_input("Full Name*", placeholder="Grace Hopper", key="resume_name")
+            name = st.text_input("Full Name*", placeholder="Wanying Xu", key="resume_name")
         with col2:
             phone = st.text_input("Phone Number*", placeholder="(123) 456-7890", key="resume_phone")
         with col3:
@@ -353,21 +135,21 @@ with tab1:
         st.subheader("Primary Education")
         col1, col2 = st.columns(2)
         with col1:
-            university = st.text_input("University Name*", placeholder="University of North Carolina at Chapel Hill", key="resume_university")
+            university = st.text_input("University Name*", placeholder="Queens College", key="resume_university")
         with col2:
             degree = st.text_input("Degree*", placeholder="B.S. Computer Science", key="resume_degree")
         
         col3, col4, col5 = st.columns(3)
         with col3:
-            education_dates = st.text_input("Dates Attended*", placeholder="Aug. 2021 -- May 2025", key="resume_education_dates")
+            education_dates = st.text_input("Dates Attended*", placeholder="Aug. 2024 -- May 2026", key="resume_education_dates")
         with col4:
-            gpa = st.text_input("GPA", placeholder="3.8/4.0", key="resume_gpa")
+            gpa = st.text_input("GPA", placeholder="3.9/4.0", key="resume_gpa")
         with col5:
-            university_location = st.text_input("Location*", placeholder="Chapel Hill, NC", key="resume_university_location")
+            university_location = st.text_input("Location*", placeholder="Flushing, NY", key="resume_university_location")
         
         education_bullets = st.text_area("Additional Education Details", height=100,
             help="Include: Honors, awards, relevant courses (one per line)",
-            placeholder="Dean's List\nRelevant Courses: Data Structures, Algorithms",
+            placeholder="Dean's List, NSF S-STEM Scholar, Queens College Transfer Honor Full Scholarship, Guttman Transfer Scholarship\n Relevant Courses: Data Structures, Algorithms",
             key="resume_education_bullets")
 
     with st.expander("💼 Work Experience"):
@@ -382,7 +164,7 @@ with tab1:
         with col3:
             job1_dates = st.text_input("Employment Dates*", placeholder="May 2023 -- Aug. 2023", key="resume_job1_dates")
         with col4:
-            job1_location = st.text_input("Location*", placeholder="San Francisco, CA", key="resume_job1_location")
+            job1_location = st.text_input("Location*", placeholder="New York, NY", key="resume_job1_location")
         
         job1_desc = st.text_area("Job Description & Achievements*", height=150,
             help="Describe your responsibilities and accomplishments (we'll convert to bullet points)",
@@ -392,52 +174,52 @@ with tab1:
         st.subheader("Second Most Recent Position")
         col5, col6 = st.columns(2)
         with col5:
-            job2_title = st.text_input("Job Title", placeholder="Teaching Assistant", key="resume_job2_title")
+            job2_title = st.text_input("Job Title", placeholder="InformationInformation System Data Analyst Intern", key="resume_job2_title")
         with col6:
-            job2_company = st.text_input("Company Name", placeholder="University CS Department", key="resume_job2_company")
+            job2_company = st.text_input("Company Name", placeholder="University IT Department", key="resume_job2_company")
         
         col7, col8 = st.columns(2)
         with col7:
-            job2_dates = st.text_input("Employment Dates", placeholder="Aug. 2022 -- May 2023", key="resume_job2_dates")
+            job2_dates = st.text_input("Employment Dates", placeholder="May 2022 -- Aug. 2022", key="resume_job2_dates")
         with col8:
-            job2_location = st.text_input("Location", placeholder="Chapel Hill, NC", key="resume_job2_location")
+            job2_location = st.text_input("Location", placeholder="New York, NY", key="resume_job2_location")
         
         job2_desc = st.text_area("Job Description & Achievements", height=150,
             help="Describe your responsibilities and accomplishments",
-            placeholder="Mentored 50+ students in introductory programming\nCreated new course materials improving exam scores by 15%",
+            placeholder="Enhanced data clarity by 100%, raising the supervisor’s rating from 2/5 to 4/5 after generating reports from over 17,000 students and employees’ data using MS SQL Server, based on specific requirements, and prepared the reports for upload to Teams.",
             key="resume_job2_desc")
 
     with st.expander("🛠 Skills"):
         skills_content = st.text_area("Technical Skills*", height=100,
             help="List in this format: Languages: Java, Python | Technologies: React, Docker | Tools: Git, Jira",
-            placeholder="Languages: Java, Python (pandas, matplotlib)\nTechnologies: React, Node.js, Docker\nTools: Git, Jira, Figma",
+            placeholder="Languages & Frameworks: Python, Java, C++, SQL, HTML, CSS, JavaScript, Swift, JavaFX, SwiftUI \nDatabases: MySQL, MS SQL Server, MariaDB | AI: AWS Bedrock, Titan Embeddings G1, Claude 3.5",
             key="resume_skills_content")
 
     with st.expander("🚀 Projects"):
         st.subheader("Project 1")
         col1, col2 = st.columns(2)
         with col1:
-            project1_name = st.text_input("Project Name", placeholder="RESTroom Yelp", key="resume_project1_name")
+            project1_name = st.text_input("Project Name", placeholder="PicSpeaks", key="resume_project1_name")
         with col2:
-            project1_date = st.text_input("Completion Date", placeholder="Feb. 2023", key="resume_project1_date")
+            project1_date = st.text_input("Completion Date", placeholder="Oct. 2024", key="resume_project1_date")
         
-        project1_context = st.text_input("Project Context", placeholder="UNC PearlHacks", key="resume_project1_context")
+        project1_context = st.text_input("Project Context", placeholder="YHack 2024", key="resume_project1_context")
         project1_desc = st.text_area("Project Description", height=100,
             help="Describe the project and your contributions",
-            placeholder="Developed a web app for finding and rating campus restrooms\nWon 1st place in university hackathon",
+            placeholder="• Architeched and led the design of PicSpeaks, a native iOS application developed during YHack 2024, Yale’spremier hackathon. The app utilizes SwiftUI for the frontend and Python (Flask) for the backend, enabling users to upload images or capture photos. By implementing the Google Cloud Vision API, the app identifies objects in images and translates labels into multiple languages using the Google Translate API.\n• Developed image upload functionality with base64 encoding and JSON handling, ensuring seamless data transmission between the frontend and backend. \n• Integrated AVFoundation for real-time text-to-speech translation, significantly enhancing the interactive learning experience for users.",
             key="resume_project1_desc")
         
         st.subheader("Project 2")
         col3, col4 = st.columns(2)
         with col3:
-            project2_name = st.text_input("Project Name", placeholder="Discover the New World", key="resume_project2_name")
+            project2_name = st.text_input("Project Name", placeholder="AI Agent: Asset Management", key="resume_project2_name")
         with col4:
-            project2_date = st.text_input("Completion Date", placeholder="May 2022", key="resume_project2_date")
+            project2_date = st.text_input("Completion Date", placeholder="Mar. 2025", key="resume_project2_date")
         
-        project2_context = st.text_input("Project Context", placeholder="Console Mini-Game", key="resume_project2_context")
+        project2_context = st.text_input("Project Context", placeholder="Gen AI Workshop by Amazon", key="resume_project2_context")
         project2_desc = st.text_area("Project Description", height=100,
             help="Describe the project and your contributions",
-            placeholder="Created a text-based adventure game in C#\nImplemented random map generation algorithm",
+            placeholder="• Developed AI-powered solutions using Amazon Bedrock to create and manage an AI agent for financial services. \n• Version 1: Created, synced and tested Knowledge Base using Amazon S3 as the data source with max parent token size: 8018, max child size: 4090 and overlap tokens between chunks 300. Used Amazon Titan Embeddings G1 - Text 1.2 as embeddings model. Created agent using Anthropic Claude 3.5 Sonnet V1 model. \n• Version 2: Created Agent SQL Tool and News Tool by adding action group lambda functions. \n• Version 3: Created a Guardrail by configuring content filters, adding denied topics, word filters, sensitive information filters, and contextual grounding checks. Tested Guardrail and added it to the agent.",
             key="resume_project2_desc")
 
     # Generate Resume Button
@@ -474,7 +256,7 @@ with tab1:
                     github_html = f'<a href="{github}">GitHub</a>' if github else "GitHub: Not provided"
                     
                     # Replace all placeholders in template
-                    html_resume = HTML_TEMPLATE.format(
+                    html_resume = RESUME_TEMPLATE.format(
                         name=name,
                         phone=phone,
                         email=email,
@@ -609,7 +391,7 @@ Sincerely,
                         st.session_state['cover_letter_generated'] = True
                         
                         # Create HTML version for PDF
-                        html_letter = COVER_LETTER_HTML_TEMPLATE.format(
+                        html_letter = COVER_LETTER_TEMPLATE.format(
                             name=your_name,
                             date=datetime.now().strftime("%B %d, %Y"),
                             recipient_name=hiring_manager if hiring_manager else "Hiring Manager",
