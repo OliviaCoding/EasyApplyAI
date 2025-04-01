@@ -1,52 +1,71 @@
 ![Python](https://img.shields.io/badge/python-3.9+-blue)
-![Flask](https://img.shields.io/badge/flask-2.0+-green)
+![Streamlit](https://img.shields.io/badge/streamlit-1.25+-green)
 [![GitHub stars](https://img.shields.io/github/stars/OliviaCoding/EasyApplyAI?style=social)](https://github.com/OliviaCoding/EasyApplyAI)
 [![Open Issues](https://img.shields.io/github/issues/OliviaCoding/EasyApplyAI)](https://github.com/OliviaCoding/EasyApplyAI/issues)
-# EasyApplyAI - Resume Generator
 
-🚀 A Flask-based web application for automated resume generation and optimization.
+# EasyApplyAI - Professional Resume & Cover Letter Generator
 
-## Features
-- **Resume Templating**: Pre-designed professional templates
-- **AI Integration**: (Optional) AWS Bedrock/Titan embeddings for content suggestions
-- **PDF Export**: One-click download in standard formats
-- **Responsive Design**: Works on desktop and mobile
+🚀 A Streamlit-powered web application for generating tailored resumes and cover letters with AI assistance.
 
-## 🛠️ Technologies
-| Component       | Version |
-|----------------|---------|
-| Python         | 3.9+    |
-| Flask          | 2.0+    |
-| Bootstrap      | 5.1     |
-| PDFKit         | 0.6.1   |
+## ✨ Enhanced Features
 
-## Installation
+- **Structured Resume Builder**: Guided form with sections for:
+  - Personal information
+  - Education history
+  - Work experience (2 positions)
+  - Technical skills
+  - Projects (2 entries)
+- **AI-Powered Content Generation**:
+  - GPT-3.5 optimized bullet points
+  - Job description-tailored content
+  - Professional cover letter generation
+- **Multiple Output Formats**:
+  - Professionally styled PDF resumes
+  - HTML source files
+  - Plain text cover letters
+- **One-Page Optimized Design**: Clean, ATS-friendly templates
+- **Smart Filename Generation**: Auto-includes name and timestamp
+
+## 🛠️ Technology Stack
+
+| Component       | Version | Purpose |
+|----------------|---------|---------|
+| Python         | 3.9+    | Backend |
+| Streamlit      | 1.25+   | UI Framework |
+| WeasyPrint     | 56.1    | PDF Generation |
+| OpenAI API     | Latest  | AI Content |
+| lru_cache      | Built-in| API Call Optimization |
+
+## 🚀 Installation
+
 ```bash
 git clone https://github.com/OliviaCoding/EasyApplyAI.git
 cd EasyApplyAI
 pip install -r requirements.txt
 ```
 
-## Usage
+## 💻 Usage
 ```bash
-python app.py
+streamlit run app.py
 ```
-Then open `http://localhost:5000` in your browser.
+Then open the local URL shown in your terminal (typically http://localhost:8501)
 
-## Project Structure
+## 📂 Project Structure
 ```
 /resume-generator
-├── app.py          # Flask main application
-├── requirements.txt # Dependencies
-├── static/         # CSS/JS/Images
-└── templates/      # HTML templates
+├── app.py          # Main Streamlit application
+├── requirements.txt # Python dependencies
+├── assets/         # HTML templates and styling
+├── .streamlit/     # Streamlit configuration
+└── secrets.toml    # API credentials (example)
 ```
-## Development
+## 🔧 Development Setup
 ```bash
-# Set up virtual environment
+# Create virtual environment
 python -m venv venv
 source venv/bin/activate  # Linux/Mac
 venv\Scripts\activate    # Windows
+```
 
-## License
+## 📜 License
 [GPL-3.0](LICENSE) © 2025 Wanying Xu
