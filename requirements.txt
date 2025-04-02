@@ -1,4 +1,9 @@
 openai>=1.0.0
 streamlit>=1.0.0
 python-dotenv>=1.0.0
-pylatex>=1.0.0
+weasyprint>=58.0  # convert HTML to PDF
+PyPDF2>=3.0.0    # PDF OCR
+pdf2image>=1.16.0 # Convert PDF to image (ready for OCR）
+pytesseract>=0.3.10  # OCR
+pillow>=10.0.0   # image process
+python-dateutil>=2.8.2  # date process
