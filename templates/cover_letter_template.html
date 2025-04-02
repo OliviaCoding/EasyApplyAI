@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Cover Letter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        .contact-info {
+            margin-bottom: 5px;
+        }
+        .date {
+            margin-bottom: 20px;
+        }
+        .recipient {
+            margin-bottom: 20px;
+        }
+        .salutation {
+            margin-bottom: 10px;
+        }
+        .content {
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+        }
+        .signature {
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="date">{date}</div>
+
+    <div class="recipient">
+        <div>{recipient_name}</div>
+        <div>{company_name}</div>
+        <div>{company_address}</div>
+        <div>{company_city_state_zip}</div>
+    </div>
+
+    <div class="salutation">{salutation}</div>
+
+    <div class="content">{content}</div>
+
+    <div class="signature">
+        <div>Sincerely,</div>
+        <div><strong>{name}</strong></div>
+    </div>
+</body>
+</html>
