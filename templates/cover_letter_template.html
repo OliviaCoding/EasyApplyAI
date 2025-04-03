@@ -4,55 +4,53 @@
     <meta charset="UTF-8">
     <title>Cover Letter</title>
     <style>
-        body {
+        body {{
             font-family: Arial, sans-serif;
             line-height: 1.6;
             color: #333;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-        }
-        .header {
+        }}
+        .header {{
             margin-bottom: 20px;
-        }
-        .contact-info {
+        }}
+        .contact-info {{
             margin-bottom: 5px;
-        }
-        .date {
+        }}
+        .date {{
             margin-bottom: 20px;
-        }
-        .recipient {
+        }}
+        .recipient {{
             margin-bottom: 20px;
-        }
-        .salutation {
+        }}
+        .salutation {{
             margin-bottom: 10px;
-        }
-        .content {
+        }}
+        .content {{
             margin-bottom: 20px;
             white-space: pre-wrap;
-        }
-        .signature {
+        }}
+        .signature {{
             margin-top: 40px;
-        }
+        }}
     </style>
 </head>
 <body>
-    <div class="date">{date}</div>
-
-    <div class="recipient">
-        <div>{recipient_name}</div>
-        <div>{company_name}</div>
-        <div>{company_address}</div>
-        <div>{company_city_state_zip}</div>
+    <div class="header">
+        <div class="date">{date}</div>
+        <div class="recipient">
+            {recipient_name}<br>
+            {company_name}<br>
+            {company_address}<br>
+            {company_city_state_zip}
+        </div>
     </div>
-
-    <div class="salutation">{salutation}</div>
-
+    <div class="greeting">{salutation}</div>
     <div class="content">{content}</div>
-
-    <div class="signature">
-        <div>Sincerely,</div>
-        <div><strong>{name}</strong></div>
+    <div class="closing">
+        Sincerely,<br>
+        {name}
     </div>
 </body>
 </html>

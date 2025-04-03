@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Professional Resume</title>
     <style>
-        body {
+        body {{
             font-family: 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.4;
             color: #333;
@@ -12,31 +12,31 @@
             margin: 0 auto;
             padding: 10px;
             font-size: 12px;
-        }
-        .header {
+        }}
+        .header {{
             text-align: center;
             margin-bottom: 8px;
             border-bottom: 2px solid #3498db;
             padding-bottom: 6px;
-        }
-        .name {
+        }}
+        .name {{
             font-size: 22px;
             font-weight: bold;
             color: #2c3e50;
             margin-bottom: 3px;
-        }
-        .contact-info {
+        }}
+        .contact-info {{
             font-size: 11px;
             color: #7f8c8d;
             margin-bottom: 5px;
-        }
-        .contact-line {
+        }}
+        .contact-line {{
             margin: 3px 0;
-        }
-        .section {
+        }}
+        .section {{
             margin-bottom: 10px;
-        }
-        .section-title {
+        }}
+        .section-title {{
             font-size: 14px;
             font-weight: bold;
             color: #2c3e50;
@@ -44,63 +44,63 @@
             padding-bottom: 3px;
             margin-bottom: 6px;
             text-transform: uppercase;
-        }
-        .subsection {
+        }}
+        .subsection {{
             margin-bottom: 8px;
-        }
-        .job-title {
+        }}
+        .job-title {{
             font-weight: bold;
             font-size: 12px;
-        }
-        .company {
+        }}
+        .company {{
             font-style: italic;
             font-size: 11px;
-        }
-        .dates {
+        }}
+        .dates {{
             float: right;
             font-weight: normal;
-        }
-        .location {
+        }}
+        .location {{
             font-style: italic;
             color: #7f8c8d;
             font-size: 11px;
-        }
-        ul {
+        }}
+        ul {{
             margin-top: 3px;
             padding-left: 15px;
-        }
-        li {
+        }}
+        li {{
             margin-bottom: 3px;
             font-size: 11px;
-        }
-        a {
+        }}
+        a {{
             color: #3498db;
             text-decoration: none;
-        }
-        .skills-list {
+        }}
+        .skills-list {{
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             font-size: 11px;
-        }
-        .skill-category {
+        }}
+        .skill-category {{
             margin-bottom: 4px;
-        }
-        .skill-category strong {
+        }}
+        .skill-category strong {{
             display: inline-block;
             margin-right: 5px;
-        }
+        }}
     </style>
 </head>
 <body>
     <div class="header">
         <div class="name">{name}</div>
-        <div class="contact-info">
-            <div class="contact-line">phone {phone} | email <a href="mailto:{email}">{email}</a></div>
-            <div class="contact-line">
-                {linkedin_html} | {github_html}
-            </div>
-        </div>
+		<div class="contact-info">
+		  <div class="contact-line">phone {phone} | email <a href="mailto:{email}">{email}</a></div>
+		  <div class="contact-line">
+			    {linkedin_html} | {github_html}
+		  </div>
+		</div>
     </div>
 
     <div class="section">
@@ -109,17 +109,13 @@
             <div class="job-title">{university} <span class="dates">{education_dates}</span></div>
             <div class="company">{degree}{gpa}</div>
             <div class="location">{university_location}</div>
-            <ul>
-                {education_bullets}
-            </ul>
+            <ul>{education_bullets}</ul>
         </div>
     </div>
 
     <div class="section">
         <div class="section-title">Technical Skills</div>
-        <div class="skills-list">
-            {skills_content}
-        </div>
+        <div class="skills-list">{skills_content}</div>
     </div>
 
     <div class="section">
@@ -128,17 +124,13 @@
             <div class="job-title">{job1_title} <span class="dates">{job1_dates}</span></div>
             <div class="company">{job1_company}</div>
             <div class="location">{job1_location}</div>
-            <ul>
-                {job1_bullets}
-            </ul>
+            <ul>{job1_bullets}</ul>
         </div>
         <div class="subsection">
             <div class="job-title">{job2_title} <span class="dates">{job2_dates}</span></div>
             <div class="company">{job2_company}</div>
             <div class="location">{job2_location}</div>
-            <ul>
-                {job2_bullets}
-            </ul>
+            <ul>{job2_bullets}</ul>
         </div>
     </div>
 
@@ -147,16 +139,12 @@
         <div class="subsection">
             <div class="job-title">{project1_name} <span class="dates">{project1_date}</span></div>
             <div class="company">{project1_context}</div>
-            <ul>
-                {project1_bullets}
-            </ul>
+            <ul>{project1_bullets}</ul>
         </div>
         <div class="subsection">
             <div class="job-title">{project2_name} <span class="dates">{project2_date}</span></div>
             <div class="company">{project2_context}</div>
-            <ul>
-                {project2_bullets}
-            </ul>
+            <ul>{project2_bullets}</ul>
         </div>
     </div>
 </body>
