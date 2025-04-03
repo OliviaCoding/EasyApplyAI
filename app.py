@@ -41,16 +41,17 @@ def load_template(template_name):
 RESUME_TEMPLATE = load_template('resume_template.html')
 COVER_LETTER_TEMPLATE = load_template('cover_letter_template.html')
 
-if not st.session_state['html_letter']:
-    st.session_state['html_letter'] = COVER_LETTER_TEMPLATE.format(
-        date=datetime.now().strftime("%B %d, %Y"),
-        name="Your Name",
-        recipient_name="Hiring Manager",
-        company_name="",
-        company_address="",
-        company_city_state_zip="",
-        content=""
-    )
+# if not st.session_state['html_letter']:
+#     st.session_state['html_letter'] = COVER_LETTER_TEMPLATE.format(
+#         date=datetime.now().strftime("%B %d, %Y"),
+#         name="Your Name",
+#         recipient_name="Hiring Manager",
+#         company_name="",
+#         company_address="",
+#         company_city_state_zip="",
+#         salutation="Dear Hiring Manager,",
+#         content=""
+#     )
 
 def extract_text_from_pdf(pdf_file):
     try:
