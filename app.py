@@ -49,7 +49,6 @@ if not st.session_state['html_letter']:
         company_name="",
         company_address="",
         company_city_state_zip="",
-        salutation="Dear Hiring Manager,",
         content=""
     )
 
