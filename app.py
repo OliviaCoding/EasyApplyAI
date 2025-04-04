@@ -557,7 +557,7 @@ with tab2:
         with col2:
             job_title = st.text_input("Job Title*", placeholder="Senior Software Engineer")
             your_name = st.text_input("Your Name*", value=st.session_state.get("resume_name", ""))
-            company_city_state_zip = st.text_area("City, State ZIP Code", placeholder="New York, NY 10001")
+            company_city_state_zip = st.text_input("City, State ZIP Code", placeholder="New York, NY 10001")
 
     if st.button("✍️ Generate Cover Letter", type="primary", key="generate_cover_letter_btn"):
         if not job_desc or not company_name or not job_title or not your_name:
