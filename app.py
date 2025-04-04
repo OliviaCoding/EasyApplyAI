@@ -551,7 +551,7 @@ with tab2:
     with st.expander("✉️ Cover Letter Details", expanded=True):
         col1, col2 = st.columns(2)
         with col1:
-            hiring_manager = st.text_input("Hiring Manager Name (if known)", placeholder="John Smith")
+            hiring_manager = st.text_input("Hiring Manager Name (if known)", placeholder="Jason Sung")
             company_name = st.text_input("Company Name*", placeholder="Tech Innovations Inc.")
             company_address = st.text_input("Company Street Address", placeholder="123 Main Street")
         with col2:
